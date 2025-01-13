@@ -76,7 +76,7 @@ def get_vendor(mac):
         # API URL and Authorization Header
         url = f"https://api.macvendors.com/v1/lookup/{mac}"
         headers = {
-        "Authorization": API_AUTH_TOKEN  # Token is now loaded securely
+        "Authorization": API_AUTH_TOKEN  
         }
         
         # Send the GET request
@@ -114,6 +114,7 @@ def scan(ip):
             if reply and reply[0]:
                 ttl = reply[0][1][IP].ttl
         except Exception as e:
+            pass
 
         devices.append({
             'ip': received.psrc,

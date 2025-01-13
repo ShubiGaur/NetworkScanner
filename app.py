@@ -4,8 +4,12 @@ import smtplib
 import requests
 import socket
 import time
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+
+# Load any environmental variables from .env
+load_dotenv()
 
 # Route to report/contact page
 @app.route('/report')
@@ -65,11 +69,14 @@ def guess_os(ttl):
 
 
 def get_vendor(mac):
+    # Get the API token from the .env file
+    API_AUTH_TOKEN = os.getenv("API_AUTH_TOKEN")
+
     try:
         # API URL and Authorization Header
         url = f"https://api.macvendors.com/v1/lookup/{mac}"
         headers = {
-            "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImp0aSI6ImY5OTE3NDE2LTU2NjgtNGZiMi1hNDYyLTE1Y2M0MjI1YmQzOCJ9.eyJpc3MiOiJtYWN2ZW5kb3JzIiwiYXVkIjoibWFjdmVuZG9ycyIsImp0aSI6ImY5OTE3NDE2LTU2NjgtNGZiMi1hNDYyLTE1Y2M0MjI1YmQzOCIsImlhdCI6MTczNTk2MTcwNywiZXhwIjoyMDUwNDU3NzA3LCJzdWIiOiIxNTM0MyIsInR5cCI6ImFjY2VzcyJ9.54OQ6ABVdMMCWKngyFyrsyMuitTwGb35RD0OYpkyxSPqYas_ox9Y_EUjr4qBAjeNlVyDwTOY0qg5gRLCIvJaQQ"  # Replace with your actual token
+        "Authorization": API_AUTH_TOKEN  # Token is now loaded securely
         }
         
         # Send the GET request

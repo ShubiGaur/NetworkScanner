@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Scanner</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'>
+    <style>
+        /* Ensure loading message is hidden by default */
+        #loadingMessage {
+            display: none; /* Hide from view initially */
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <div class="container">
+        <h1><b>Network Scanner</b></h1>
+        <p>Utilize this simple network scanner by clicking <b>Scan Network</b> below to find all the hosts/devices in your home network.</p>
+        <a href="{{ url_for('report') }}">
+            <button type="button" class="btn btn-outline-info mb-3">Report A Problem</button>
+        </a>        <button id="scanButton" class="btn btn-primary mb-3">Scan Network</button>
+
+        <!-- Predefined loading message -->
+        <div id="loadingMessage" class="text-info mt-3" style="display: none;">This will only take 1-2 minutes.</div>             
+            
+        
+        <!-- Table for devices -->
+        <h1 class="mt-5">Connected Devices</h1>
+        <div id="devicesTable">
+            <!-- Dynamic content for devices will be injected here -->
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            let isButtonClicked = false; // Flag to track if the button was clicked
+    
+            // Explicitly hide the loading message on page load
+            $('#loadingMessage').hide();
+            console.log('Page loaded. isButtonClicked:', isButtonClicked); // Debugging log
+    
+            // Handle the button click
+            $('#scanButton').click(function() {
+                console.log('Button clicked. isButtonClicked before:', isButtonClicked); // Debugging log
+    
+                // If the button hasn't been clicked yet, show the loading message
+                if (!isButtonClicked) {
+                    isButtonClicked = true; // Set the flag to true
+    
+                    // Show a message below the button
+                    if ($('#belowButtonMessage').length === 0) { // Check if the message already exists
+                        $('#scanButton').after('<p id="belowButtonMessage" class="alert alert-info mt-3">Scanning...</p>');
+                    }
+    
+                    // Fade in the loading message
+                    $('#loadingMessage').fadeIn();
+                    console.log('Loading message displayed.'); // Debugging log
+                }
+    
+                // Make the AJAX call
+                $.ajax({
+                    url: '/scan', // This will call the Flask route
+                    type: 'GET',
+                    success: function(data) {
+                        console.log('AJAX success. Resetting isButtonClicked.'); // Debugging log
+                        isButtonClicked = false; // Reset the flag
+                        $('#loadingMessage').fadeOut(); // Hide the loading message
+                        $('#devicesTable').html(data); // Display the scan results
+    
+                        // Remove the below button message
+                        $('#belowButtonMessage').remove();
+                    },
+                    error: function() {
+                        console.log('AJAX error. Resetting isButtonClicked.'); // Debugging log
+                        isButtonClicked = false; // Reset the flag
+                        $('#loadingMessage').fadeOut(); // Hide the loading message
+                        $('#devicesTable').html('<p class="text-danger">Error retrieving scan results. Please try again later.</p>'); // Show error
+    
+                        // Update the below button message to show an error
+                        $('#belowButtonMessage').text('An error occurred. Please try again later.').removeClass('alert-info').addClass('alert-danger');
+                    }
+                });
+            });
+        });
+    </script>
+
+    
+    
+</body>
+</html>

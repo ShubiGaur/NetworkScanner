@@ -1,0 +1,24 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>IP Address</th>
+            <th>MAC Address</th>
+            <th>Hostname</th>
+            <th>Response Time</th>
+            <th>Role</th>
+            <th>Vendor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for device in devices %}
+        <tr>
+            <td>{{ device.ip }}</td>
+            <td>{{ device.mac }}</td>
+            <td>{{ device.hostname }}</td>
+            <td>{{ device.response_time }}</td>
+            <td>{{ device.role }}</td>
+            <td>{{ device.vendor }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

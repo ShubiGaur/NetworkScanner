@@ -1,11 +1,11 @@
 # NetworkScanner
 A Python-based network scanner using Flask and Scapy.
 
-DISCLAIMER: 
+**DISCLAIMER:**
 This tool is for educational and testing purposes only. Unauthorized network scanning may violate laws or regulations. Use responsibly and only on networks you own or have explicit permission to scan.
 
-** Currently doing more testing to make it compatible on Mac/Apple devices...So far, installing libpcap with "brew install libpcap" seems to solve the issue but it's not * * 100% guaranteed * *  
-Note: This will only work on LANs! Public networks often have advanced security configurations, and it is a violation of privacy to access them without permission.
+** Currently doing more testing to make it compatible on Mac/Apple devices...So far, installing libpcap with "brew install libpcap" seems to solve the issue but it's not *100% guaranteed*  
+**Note:** This will **only** work on LANs! Public networks often have advanced security configurations, and it is a violation of privacy to access them without permission.
 
 ---
 **Features:**
